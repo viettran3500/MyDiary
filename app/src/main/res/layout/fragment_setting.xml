@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EAD6C4"
+    android:paddingVertical="50dp"
+    android:paddingHorizontal="15dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.SettingFragment">
+
+    <Button
+        android:textColor="#FFFFFF"
+        android:background="@drawable/bg_button"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="100dp"
+        android:textSize="20sp"
+        android:id="@+id/btnPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Create password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></Button>
+
+    <Button
+        android:textColor="#FFFFFF"
+        android:background="@drawable/bg_button"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="100dp"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:id="@+id/btnChangePassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Change password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></Button>
+
+    <Button
+        android:textColor="#FFFFFF"
+        android:background="@drawable/bg_button"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="170dp"
+        android:textSize="20sp"
+        android:id="@+id/btnCreateBackUp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Backup export"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></Button>
+
+    <Button
+        android:textColor="#FFFFFF"
+        android:background="@drawable/bg_button"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:id="@+id/btnBackUp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnCreateBackUp"
+        android:text="Backup Restore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></Button>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

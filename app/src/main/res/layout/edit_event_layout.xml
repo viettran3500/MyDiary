@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_layout_event"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditText
+        android:enabled="false"
+        android:background="@drawable/bg_edittext"
+        android:id="@+id/editTextTitle1"
+        android:layout_marginHorizontal="30dp"
+        android:inputType="text"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        android:hint="Title event"
+        android:textSize="25sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:padding="10dp"
+        android:enabled="false"
+        android:lines="8"
+        android:scrollbars="vertical"
+        android:maxLines="10"
+        android:background="@drawable/bg_edittext"
+        android:gravity="top"
+        android:id="@+id/editTextEvenet1"
+        android:layout_margin="20dp"
+        android:inputType="textMultiLine"
+        app:layout_constraintTop_toBottomOf="@id/editTextTitle1"
+        android:hint="event"
+        android:textSize="15sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/layout"
+        app:layout_constraintTop_toBottomOf="@id/editTextEvenet1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:enabled="false"
+            android:scaleType="centerInside"
+            android:background="@drawable/ic_alarm_clock"
+            android:id="@+id/btnEditTime1"
+            android:layout_margin="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+        <TextView
+            android:textColor="#000000"
+            android:id="@+id/textViewTimeAdd1"
+            android:layout_margin="10dp"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:text="00:00 AM"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout2"
+        app:layout_constraintTop_toBottomOf="@id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:enabled="false"
+            android:scaleType="centerInside"
+            android:background="@drawable/ic_calendar_interface_symbol_tool"
+            android:id="@+id/btnEditDate1"
+            android:layout_margin="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+        <TextView
+            android:textColor="#000000"
+            android:id="@+id/textViewDateAdd1"
+            android:layout_margin="10dp"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:text="27/05/2021"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <Button
+        android:padding="15dp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/bg_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout2"
+        android:layout_margin="10dp"
+        android:id="@+id/btnEditEvent1"
+        android:gravity="center"
+        android:text="Edit Event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</androidx.constraintlayout.widget.ConstraintLayout>

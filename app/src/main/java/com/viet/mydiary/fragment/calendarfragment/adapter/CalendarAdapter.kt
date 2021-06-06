@@ -9,8 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.viet.mydiary.*
 import com.viet.mydiary.fragment.DiaryFragment
-import com.viet.mydiary.fragment.calendarfragment.dayClick
-import com.viet.mydiary.fragment.calendarfragment.numClick
+import com.viet.mydiary.utils.dayClick
+import com.viet.mydiary.utils.lastDayClick
+import com.viet.mydiary.ui.MainActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -76,13 +77,11 @@ class CalendarAdapter(
                 val runnable = Runnable {
                     kotlin.run {
                         if (i == 1) {
-                            mainActivity.replaceFragment(DiaryFragment(dayList[position]),"4")
-                            mainActivity.changeTitle("Diary ${coverD(dayList[position])}")
-//                            holder.tvDay.setBackgroundResource(R.drawable.bg_item_calendar_click)
-//                            notifyItemChanged(dayList.indexOf(dayClick))
-//                            lastDayClick = dayClick
-//                            dayClick = dayList[position]
-//                            numClick = 1
+                            holder.tvDay.setBackgroundResource(R.drawable.bg_item_calendar_click)
+                            notifyItemChanged(dayList.indexOf(dayClick))
+                            lastDayClick =
+                                dayClick
+                            dayClick = dayList[position]
                         }
                         i = 0
                     }
@@ -95,12 +94,9 @@ class CalendarAdapter(
                     if (p == position) {
                         i = 0
                         handler.removeCallbacks(runnable)
-
-//                        holder.tvDay.setBackgroundResource(R.drawable.bg_item_calendar_doubleclick)
-//                        notifyItemChanged(dayList.indexOf(dayClick))
-//                        lastDayClick = dayClick
-//                        dayClick = dayList[position]
-//                        numClick = 2
+                        mainActivity.replaceFragment(DiaryFragment(dayList[position]))
+                        mainActivity.changeTitle("Diary ${coverD(dayList[position])}")
+                        mainActivity.currentFragment = mainActivity.FRAGMENT_DIARY_CALENDAR
                     }
                 }
 
@@ -112,10 +108,7 @@ class CalendarAdapter(
                 dateFormat.format(dateCalendar.time) == dateFormat.format(dayClick) &&
                 holder.tvDay.currentTextColor != Color.argb(255, 194, 194, 194)
             ) {
-                if (numClick == 1)
-                    holder.tvDay.setBackgroundResource(R.drawable.bg_item_calendar_click)
-                else if (numClick == 2)
-                    holder.tvDay.setBackgroundResource(R.drawable.bg_item_calendar_doubleclick)
+                holder.tvDay.setBackgroundResource(R.drawable.bg_item_calendar_click)
             }
         }
 
@@ -134,7 +127,8 @@ class CalendarAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var tvDay: TextView = view.findViewById(R.id.tvDay)
     }
-    fun coverD(date: Date): String{
+
+    fun coverD(date: Date): String {
         return SimpleDateFormat("dd/MM/yyyy").format(date)
     }
 }

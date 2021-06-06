@@ -12,10 +12,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.viet.mydiary.DBOpenHelper
-import com.viet.mydiary.Events
-import com.viet.mydiary.MainActivity
+import com.viet.mydiary.database.DBOpenHelper
+import com.viet.mydiary.model.Events
+import com.viet.mydiary.ui.MainActivity
 import com.viet.mydiary.R
+import com.viet.mydiary.utils.coverDate
+import com.viet.mydiary.utils.textToDate
 import kotlinx.android.synthetic.main.dialog_change_password.view.*
 import kotlinx.android.synthetic.main.dialog_create_password.view.*
 import kotlinx.android.synthetic.main.fragment_setting.view.*
@@ -46,12 +48,11 @@ class SettingFragment : Fragment() {
         mainActivity = activity as MainActivity
 
         initPreferences()
-        val data = sharedPreferences.getString("DATA","")
-        if(data!!.isEmpty()){
+        val data = sharedPreferences.getString("DATA", "")
+        if (data!!.isEmpty()) {
             view.btnChangePassword.visibility = View.GONE
             view.btnPassword.visibility = View.VISIBLE
-        }
-        else{
+        } else {
             view.btnPassword.visibility = View.GONE
             view.btnChangePassword.visibility = View.VISIBLE
         }
@@ -63,9 +64,9 @@ class SettingFragment : Fragment() {
                 LayoutInflater.from(this.context).inflate(R.layout.dialog_create_password, null)
 
             dialogView.btnCreatePW.setOnClickListener {
-                if(dialogView.editTextCreatePw.text.toString().isEmpty())
-                    Toast.makeText(this.context,"Please enter password", Toast.LENGTH_SHORT).show()
-                else{
+                if (dialogView.editTextCreatePw.text.toString().isEmpty())
+                    Toast.makeText(this.context, "Please enter password", Toast.LENGTH_SHORT).show()
+                else {
                     editor.putString("DATA", dialogView.editTextCreatePw.text.toString())
                     editor.commit()
                     view.btnPassword.visibility = View.GONE
@@ -85,15 +86,16 @@ class SettingFragment : Fragment() {
                 LayoutInflater.from(this.context).inflate(R.layout.dialog_change_password, null)
 
             dialogView.btnChangePW.setOnClickListener {
-                val data = sharedPreferences.getString("DATA","")
-                if(dialogView.editTextOldPw.text.toString() != data)
-                    Toast.makeText(this.context,"wrong old password", Toast.LENGTH_SHORT).show()
-                else if(dialogView.editTextChangePw.text.toString().isNotEmpty()){
+                val data = sharedPreferences.getString("DATA", "")
+                if (dialogView.editTextOldPw.text.toString() != data)
+                    Toast.makeText(this.context, "wrong old password", Toast.LENGTH_SHORT).show()
+                else if (dialogView.editTextChangePw.text.toString().isNotEmpty()) {
                     editor.putString("DATA", dialogView.editTextChangePw.text.toString())
                     editor.commit()
                     alertDialog.cancel()
-                }else{
-                    Toast.makeText(this.context,"Please enter new password", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this.context, "Please enter new password", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
             builder.setView(dialogView)
@@ -112,29 +114,34 @@ class SettingFragment : Fragment() {
     }
 
     private fun importCSV() {
-        val filePathAndName = "${Environment.getExternalStorageDirectory()}/SQLiteBackup/SQLite_Backup.csv"
+        val filePathAndName =
+            "${Environment.getExternalStorageDirectory()}/SQLiteBackup/SQLite_Backup.csv"
         val csvFile = File(filePathAndName)
 
-        if(csvFile.exists()){
+        if (csvFile.exists()) {
             dbOpenHelper.deleteAll()
             try {
                 val br = BufferedReader(FileReader(filePathAndName))
                 var line: String?
-                while (true){
+                while (true) {
                     line = br.readLine()
-                    if(line!=null){
+                    if (line != null) {
                         val result: MutableList<String> = parseCsvLine(line)
-                        val event = Events(result[1], result[2], textToDate(result[3]))
+                        val event = Events(
+                            result[1],
+                            result[2],
+                            textToDate(result[3])
+                        )
                         dbOpenHelper.saveEvent(event)
-                    }else{
+                    } else {
                         break
                     }
                 }
                 Toast.makeText(this.context, "Backup Restored...", Toast.LENGTH_SHORT).show()
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 Toast.makeText(this.context, "${e.message}", Toast.LENGTH_SHORT).show()
             }
-        }else{
+        } else {
             Toast.makeText(this.context, "No backup found...", Toast.LENGTH_SHORT).show()
         }
     }
@@ -142,7 +149,7 @@ class SettingFragment : Fragment() {
     private fun exportCSV() {
         val folder = File("${Environment.getExternalStorageDirectory()}/SQLiteBackup")
         var isFolderCreated = false
-        if(!folder.exists())
+        if (!folder.exists())
             isFolderCreated = folder.mkdir()
 
         Log.e("CSC_TAG", "exportCSV $isFolderCreated")
@@ -156,42 +163,35 @@ class SettingFragment : Fragment() {
         eventsList = dbOpenHelper.allEvent()
         try {
             val fw = FileWriter(filePathAndName)
-            for (i in 0 until eventsList.size){
-                fw.append(""+eventsList[i].id)
+            for (i in 0 until eventsList.size) {
+                fw.append("" + eventsList[i].id)
                 fw.append(",")
-                fw.append(""+eventsList[i].title)
+                fw.append("" + eventsList[i].title)
                 fw.append(",")
-                fw.append(""+eventsList[i].event)
+                fw.append("" + eventsList[i].event)
                 fw.append(",")
-                fw.append(""+coverDate(eventsList[i].date))
+                fw.append("" + coverDate(eventsList[i].date))
                 fw.append("\n")
             }
             fw.flush()
             fw.close()
-            Toast.makeText(this.context, "Backup Exported to: $filePathAndName", Toast.LENGTH_SHORT).show()
-        }catch (e: Exception){
+            Toast.makeText(this.context, "Backup Exported to: $filePathAndName", Toast.LENGTH_SHORT)
+                .show()
+        } catch (e: Exception) {
             Toast.makeText(this.context, "${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun initPreferences(){
+    private fun initPreferences() {
         sharedPreferences = mainActivity.getSharedPreferences("Password", Context.MODE_PRIVATE)
         editor = sharedPreferences.edit()
     }
 
-    fun coverDate(date: Date): String{
-        return SimpleDateFormat("dd/MM/yyyy hh:mm").format(date)
-    }
-
-    fun textToDate(text: String): Date{
-        return SimpleDateFormat("dd/MM/yyyy hh:mm").parse(text)
-    }
-
-    fun parseCsvLine(csvLine: String?): MutableList<String>{
+    fun parseCsvLine(csvLine: String?): MutableList<String> {
         val result: MutableList<String> = mutableListOf()
-        if(csvLine != null){
-            val splitData : List<String> = csvLine.split(",")
-            for (element in splitData){
+        if (csvLine != null) {
+            val splitData: List<String> = csvLine.split(",")
+            for (element in splitData) {
                 result.add(element)
             }
         }

@@ -1,15 +1,22 @@
-package com.viet.mydiary
+package com.viet.mydiary.database
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
+import com.viet.mydiary.model.Events
+import com.viet.mydiary.utils.coverD
+import com.viet.mydiary.utils.coverDate
+import com.viet.mydiary.utils.textToDate
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DBOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
+class DBOpenHelper(context: Context) : SQLiteOpenHelper(
+    context,
+    DB_NAME, null,
+    DB_VERSION
+) {
 
     private val CREATE_EVENTS_TABLE =
         "create table $EVENT_TABLE_NAME ($ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -48,7 +55,7 @@ class DBOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 
         return listEvents
     }
 
-    fun saveEvent(event: Events){
+    fun saveEvent(event: Events) {
         val db: SQLiteDatabase = this.writableDatabase
         val values = ContentValues()
         values.put(TITLE, event.title)
@@ -59,7 +66,7 @@ class DBOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 
         db.close()
     }
 
-    fun updateEvent(event: Events){
+    fun updateEvent(event: Events) {
         val db: SQLiteDatabase = this.writableDatabase
         val values = ContentValues()
         values.put(TITLE, event.title)
@@ -69,13 +76,13 @@ class DBOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 
         db.close()
     }
 
-    fun deleteEvent(event: Events){
+    fun deleteEvent(event: Events) {
         val db: SQLiteDatabase = this.writableDatabase
-        db.delete(EVENT_TABLE_NAME,"$ID=?", arrayOf(event.id.toString()))
+        db.delete(EVENT_TABLE_NAME, "$ID=?", arrayOf(event.id.toString()))
         db.close()
     }
 
-    fun readEvents(date: Date?): MutableList<Events>{
+    fun readEvents(date: Date?): MutableList<Events> {
         val listEvents: MutableList<Events> = mutableListOf()
         val selectQuery = "SELECT * FROM $EVENT_TABLE_NAME"
         val db: SQLiteDatabase = this.writableDatabase
@@ -92,19 +99,19 @@ class DBOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 
             } while (cursor.moveToNext())
         }
         db.close()
-        return if(date == null)
+        return if (date == null)
             listEvents
-        else{
+        else {
             val listE: MutableList<Events> = mutableListOf()
-            for (i in 0 until listEvents.size){
-                if(coverD(listEvents[i].date) == coverD(date))
+            for (i in 0 until listEvents.size) {
+                if (coverD(listEvents[i].date) == coverD(date))
                     listE.add(listEvents[i])
             }
             listE
         }
     }
 
-    fun deleteAll(){
+    fun deleteAll() {
         val db: SQLiteDatabase = this.writableDatabase
         db.execSQL("DELETE FROM $EVENT_TABLE_NAME")
         db.close()
@@ -119,17 +126,4 @@ class DBOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 
         private val EVENT = "event"
         private val DATE = "date"
     }
-
-    fun textToDate(text: String): Date{
-        return SimpleDateFormat("dd/MM/yyyy hh:mm").parse(text)
-    }
-
-    fun coverDate(date: Date): String{
-        return SimpleDateFormat("dd/MM/yyyy hh:mm").format(date)
-    }
-
-    fun coverD(date: Date): String{
-        return SimpleDateFormat("dd/MM/yyyy").format(date)
-    }
-
 }

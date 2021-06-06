@@ -1,105 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_layout_event"
     android:paddingHorizontal="10dp"
-    android:paddingVertical="20dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:paddingVertical="20dp">
 
     <EditText
-        android:enabled="false"
-        android:background="@drawable/bg_edittext"
         android:id="@+id/editTextTitle1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:inputType="text"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/bg_edittext"
+        android:enabled="false"
         android:gravity="center"
         android:hint="Title event"
+        android:inputType="text"
         android:textSize="25sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:padding="10dp"
-        android:enabled="false"
-        android:lines="8"
-        android:scrollbars="vertical"
-        android:maxLines="10"
-        android:background="@drawable/bg_edittext"
-        android:gravity="top"
         android:id="@+id/editTextEvenet1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:inputType="textMultiLine"
-        app:layout_constraintTop_toBottomOf="@id/editTextTitle1"
+        android:background="@drawable/bg_edittext"
+        android:enabled="false"
+        android:gravity="top"
         android:hint="event"
+        android:inputType="textMultiLine"
+        android:lines="8"
+        android:maxLines="10"
+        android:padding="10dp"
+        android:scrollbars="vertical"
         android:textSize="15sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        app:layout_constraintTop_toBottomOf="@id/editTextTitle1" />
+
     <LinearLayout
-        android:layout_marginTop="10dp"
         android:id="@+id/layout"
-        app:layout_constraintTop_toBottomOf="@id/editTextEvenet1"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/editTextEvenet1">
 
         <Button
-            android:enabled="false"
-            android:scaleType="centerInside"
-            android:background="@drawable/ic_alarm_clock"
             android:id="@+id/btnEditTime1"
-            android:layout_margin="10dp"
             android:layout_width="40dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/ic_alarm_clock"
+            android:enabled="false"
+            android:scaleType="centerInside" />
 
         <TextView
-            android:textColor="#000000"
             android:id="@+id/textViewTimeAdd1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textSize="30sp"
             android:gravity="center"
             android:text="00:00 AM"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:textColor="#000000"
+            android:textSize="30sp" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/layout2"
-        app:layout_constraintTop_toBottomOf="@id/layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/layout">
 
         <Button
-            android:enabled="false"
-            android:scaleType="centerInside"
-            android:background="@drawable/ic_calendar_interface_symbol_tool"
             android:id="@+id/btnEditDate1"
-            android:layout_margin="10dp"
             android:layout_width="40dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/ic_calendar_interface_symbol_tool"
+            android:enabled="false"
+            android:scaleType="centerInside" />
 
         <TextView
-            android:textColor="#000000"
             android:id="@+id/textViewDateAdd1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textSize="30sp"
             android:gravity="center"
             android:text="27/05/2021"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:textColor="#000000"
+            android:textSize="30sp" />
     </LinearLayout>
 
     <Button
-        android:padding="15dp"
-        android:textColor="#FFFFFF"
+        android:id="@+id/btnEditEvent1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:background="@drawable/bg_button"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="Edit Event"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout2"
-        android:layout_margin="10dp"
-        android:id="@+id/btnEditEvent1"
-        android:gravity="center"
-        android:text="Edit Event"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        app:layout_constraintTop_toBottomOf="@id/layout2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

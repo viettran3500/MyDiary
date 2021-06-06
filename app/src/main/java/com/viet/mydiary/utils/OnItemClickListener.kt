@@ -1,4 +1,4 @@
-package com.viet.mydiary
+package com.viet.mydiary.utils
 
 
 interface OnItemClickListener {

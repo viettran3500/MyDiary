@@ -8,16 +8,15 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.viet.mydiary.Events
-import com.viet.mydiary.OnItemClickListener
+import com.viet.mydiary.model.Events
+import com.viet.mydiary.utils.OnItemClickListener
 import com.viet.mydiary.R
 import java.text.SimpleDateFormat
-import java.util.*
 
-class EventAdapter(private var eventList: MutableList<Events>, var listener: OnItemClickListener):
+class EventAdapter(private var eventList: MutableList<Events>, var listener: OnItemClickListener) :
     RecyclerView.Adapter<EventAdapter.ViewHolder>(), Filterable {
 
-    var list : MutableList<Events> = eventList
+    var list: MutableList<Events> = eventList
     var filter: CustomFilter = CustomFilter()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -43,6 +42,7 @@ class EventAdapter(private var eventList: MutableList<Events>, var listener: OnI
         var textViewEvent: TextView = view.findViewById(R.id.textViewEvent)
         var textViewTime: TextView = view.findViewById(R.id.textViewTime)
         var textViewDate: TextView = view.findViewById(R.id.textViewDate)
+
         init {
             view.setOnClickListener {
                 listener.onItemClick(adapterPosition)
@@ -54,22 +54,23 @@ class EventAdapter(private var eventList: MutableList<Events>, var listener: OnI
         return filter;
     }
 
-    inner class CustomFilter: Filter() {
+    inner class CustomFilter : Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
-            val results : FilterResults = FilterResults()
-            if (constraint != null && constraint.isNotEmpty()){
+            val results: FilterResults = FilterResults()
+            if (constraint != null && constraint.isNotEmpty()) {
                 val queryString = constraint.toString().toLowerCase()
                 val filters: MutableList<Events> = mutableListOf()
 
                 list.forEach {
-                    if(it.event.toLowerCase().contains(queryString) ||
-                                it.title.toLowerCase().contains(queryString))
+                    if (it.event.toLowerCase().contains(queryString) ||
+                        it.title.toLowerCase().contains(queryString)
+                    )
                         filters.add(it)
                 }
 
                 results.count = filters.size
                 results.values = filters
-            }else {
+            } else {
                 results.count = list.size
                 results.values = list
             }

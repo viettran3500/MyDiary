@@ -1,4 +1,4 @@
-package com.viet.mydiary
+package com.viet.mydiary.model
 
 import java.util.*
 
@@ -14,11 +14,11 @@ class Events(
         title: String,
         event: String,
         date: Date
-    ) : this(title, event, date){
+    ) : this(title, event, date) {
         this.id = id
     }
 
     override fun compareTo(event: Events): Int {
-        return  this.date.compareTo(event.date)
+        return this.date.compareTo(event.date)
     }
 }

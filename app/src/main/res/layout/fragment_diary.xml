@@ -3,30 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="60dp"
     tools:context=".fragment.DiaryFragment">
 
-   <EditText
-       android:hint="Search"
-       android:layout_alignParentStart="true"
-       android:layout_alignParentTop="true"
-       android:id="@+id/editSearch"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"></EditText>
+    <EditText
+        android:id="@+id/editSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:hint="Search" />
 
-   <androidx.recyclerview.widget.RecyclerView
-       android:layout_marginTop="10dp"
-       android:layout_alignParentStart="true"
-       android:layout_below="@id/editSearch"
-       android:id="@+id/recyclerViewEvents"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewEvents"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/editSearch"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
 
-   <com.google.android.material.floatingactionbutton.FloatingActionButton
-       android:id="@+id/fab"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_margin="@dimen/activity_vertical_margin"
-       android:layout_alignParentEnd="true"
-       android:layout_alignParentBottom="true" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:src="@drawable/ic_plus_sign" />
 </RelativeLayout>

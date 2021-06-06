@@ -3,33 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#98DAA4"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    android:background="#98DAA4"
+    tools:context=".ui.LoginActivity">
 
     <EditText
-        android:textSize="25sp"
-        android:layout_marginHorizontal="20dp"
-        android:background="@drawable/bg_edittext"
-        android:layout_marginTop="250dp"
-        android:gravity="center"
-        android:hint="Password"
         android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/bg_edittext"
+        android:gravity="center"
+        android:hint="Password"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></EditText>
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
-        android:padding="10dp"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/bg_button"
-        android:layout_marginTop="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextPassword"
-        android:text="Login"
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></Button>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_button"
+        android:padding="10dp"
+        android:text="Login"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextPassword" />
 </androidx.constraintlayout.widget.ConstraintLayout>

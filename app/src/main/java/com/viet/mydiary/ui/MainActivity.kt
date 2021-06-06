@@ -1,4 +1,4 @@
-package com.viet.mydiary
+package com.viet.mydiary.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,18 +8,19 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
+import com.viet.mydiary.R
 import com.viet.mydiary.fragment.calendarfragment.CalendarFragment
 import com.viet.mydiary.fragment.DiaryFragment
 import com.viet.mydiary.fragment.SettingFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.jar.Manifest
+import java.util.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     val FRAGMENT_DIARY = 1
     val FRAGMENT_CALENDAR = 2
     val FRAGMENT_SETTING = 3
-
+    val FRAGMENT_DIARY_CALENDAR = 4
     var currentFragment = FRAGMENT_DIARY
 
     var diaryFragment = DiaryFragment(null)
@@ -27,16 +28,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         CalendarFragment()
     var settingFragment = SettingFragment()
 
-//    val dateFormat = SimpleDateFormat("MMMM yyyy", Locale.ENGLISH)
-//    val monthFormat = SimpleDateFormat("MMMM", Locale.ENGLISH)
-//    val yearFormat = SimpleDateFormat("yyyy", Locale.ENGLISH)
+    var stack = Stack<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)
 
-        val toggle: ActionBarDrawerToggle = ActionBarDrawerToggle(
+        val toggle = ActionBarDrawerToggle(
             this,
             drawer,
             toolbar,
@@ -46,8 +46,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer.addDrawerListener(toggle)
         toggle.syncState()
         navigation.setNavigationItemSelectedListener(this)
-
-        replaceFragment(diaryFragment,"1")
+        navigation.setCheckedItem(R.id.nav_diary)
+        replaceFragment(diaryFragment)
+        stack.push("1")
 
     }
 
@@ -55,9 +56,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
         } else {
-            if(supportFragmentManager.backStackEntryCount == 1)
-                finish()
-            super.onBackPressed()
+            if (currentFragment == FRAGMENT_DIARY_CALENDAR) {
+                navigation.setCheckedItem(R.id.nav_calendar)
+                replaceFragment(calendarFragment)
+                currentFragment = FRAGMENT_CALENDAR
+            } else if (stack.pop() != "1") {
+                when (stack.peek()) {
+                    "3" -> {
+                        navigation.setCheckedItem(R.id.nav_setting)
+                        replaceFragment(settingFragment)
+                        currentFragment = FRAGMENT_SETTING
+                    }
+                    "2" -> {
+                        navigation.setCheckedItem(R.id.nav_calendar)
+                        replaceFragment(calendarFragment)
+                        currentFragment = FRAGMENT_CALENDAR
+                    }
+                    "1" -> {
+                        navigation.setCheckedItem(R.id.nav_diary)
+                        replaceFragment(diaryFragment)
+                        currentFragment = FRAGMENT_DIARY
+                    }
+                }
+            } else
+                super.onBackPressed()
         }
     }
 
@@ -65,20 +87,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_diary -> {
                 if (FRAGMENT_DIARY != currentFragment) {
-                    replaceFragment(diaryFragment,"1")
+                    replaceFragment(diaryFragment)
                     currentFragment = FRAGMENT_DIARY
+                    stack.push("1")
                 }
             }
             R.id.nav_calendar -> {
                 if (FRAGMENT_CALENDAR != currentFragment) {
-                    replaceFragment(calendarFragment,"2")
+                    replaceFragment(calendarFragment)
                     currentFragment = FRAGMENT_CALENDAR
+                    stack.push("2")
                 }
             }
             R.id.nav_setting -> {
                 if (FRAGMENT_SETTING != currentFragment) {
-                    replaceFragment(settingFragment,"3")
+                    replaceFragment(settingFragment)
                     currentFragment = FRAGMENT_SETTING
+                    stack.push("3")
                 }
             }
         }
@@ -86,22 +111,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    fun replaceFragment(fragment: Fragment, s: String) {
+    fun replaceFragment(fragment: Fragment) {
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
-        fragmentTransaction.addToBackStack(s)
         fragmentTransaction.commit()
 
-        when(fragment){
-            diaryFragment->changeTitle("My Diary")
-            calendarFragment->changeTitle("Calendar")
-            settingFragment->changeTitle("Setting")
+        when (fragment) {
+            diaryFragment -> changeTitle("My Diary")
+            calendarFragment -> changeTitle("Calendar")
+            settingFragment -> changeTitle("Setting")
         }
     }
 
-    fun changeTitle(title: String){
+    fun changeTitle(title: String) {
         toolbar.title = title
     }
-
-
 }

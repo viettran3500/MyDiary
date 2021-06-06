@@ -78,9 +78,8 @@ class CalendarAdapter(
                     kotlin.run {
                         if (i == 1) {
                             holder.tvDay.setBackgroundResource(R.drawable.bg_item_calendar_click)
-                            notifyItemChanged(dayList.indexOf(dayClick))
-                            lastDayClick =
-                                dayClick
+                            lastDayClick = dayClick
+                            notifyItemChanged(dayList.indexOf(lastDayClick))
                             dayClick = dayList[position]
                         }
                         i = 0

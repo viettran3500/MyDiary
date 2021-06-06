@@ -274,7 +274,8 @@ class DiaryFragment(date: Date?) : Fragment(),
     private fun saveEvent(event: Events) {
         dbOpenHelper.saveEvent(event)
         val list = dbOpenHelper.readEvents(day)
-        listEvents.add(list[list.size - 1])
+        if(list.isNotEmpty())
+            listEvents.add(list[list.size - 1])
         listEvents.sort()
         adapter.notifyDataSetChanged()
         Toast.makeText(this.context, "Event Saved", Toast.LENGTH_SHORT).show()
